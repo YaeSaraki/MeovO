@@ -1,0 +1,6 @@
+enable-control: true
+mode: "WHITELIST"
+custom-holdable-blocks:
+  - "CLAY"
+exception-worlds:
+  - "survival_nether"

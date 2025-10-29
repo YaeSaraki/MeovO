@@ -1,0 +1,15 @@
+allow-destruction: false
+
+# 带电（被闪电击中）的苦力怕是否允许破坏方块
+allow-powered-destruction: false
+
+# 允许苦力怕破坏方块的世界白名单（仅列出的世界生效）
+# 格式：- "世界名称1"
+#      - "世界名称2"
+allowed-worlds:
+- "SpawnWorld"
+- "PvPWorld"
+
+# 苦力怕爆炸的最大半径（整数，单位：方块）
+# 原版苦力怕默认爆炸半径为3，设置更小的值可限制爆炸范围
+max-explosion-radius: 3

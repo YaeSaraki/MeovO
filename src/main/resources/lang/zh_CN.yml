@@ -1,0 +1,10 @@
+core:
+  command:
+    reload:
+      start: "§6[Meoveo] §7开始重载全局配置及模块..."
+      success: "§6[Meoveo] §a重载完成！"
+      log: "§7管理员 §e%s §7触发了全局重载"
+    module:
+      status: "§6[Meoveo] §7模块 §e%s §7已%s"
+      notfound: "§6[Meoveo] §c未找到模块 §e%s"
+    version: "§6[Meoveo] §7当前版本: §e%s"

@@ -1,0 +1,14 @@
+# English language file
+prefix: "§8[§6Meovo§8] §7"
+
+# Basic plugin messages
+plugin:
+  enabled: "${prefix}Plugin enabled, version: %s"
+  disabled: "${prefix}Plugin disabled"
+  reload: "${prefix}Configuration reloaded"
+
+# Error messages
+error:
+  no_permission: "${prefix}§cYou don't have permission to do this"
+  module_disabled: "${prefix}§cThis feature is disabled"
+  config_missing: "${prefix}§cConfiguration file missing: %s"
