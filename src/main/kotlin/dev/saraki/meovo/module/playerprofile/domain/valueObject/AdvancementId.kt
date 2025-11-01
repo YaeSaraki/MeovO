@@ -10,7 +10,7 @@ import java.io.Serializable
  */
 
 data class AdvancementId (
-    val value: Int
+    val value: String
 ) : Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -24,6 +24,6 @@ data class AdvancementId (
     }
 
     override fun hashCode(): Int {
-        return value
+        return value.hashCode()
     }
 }

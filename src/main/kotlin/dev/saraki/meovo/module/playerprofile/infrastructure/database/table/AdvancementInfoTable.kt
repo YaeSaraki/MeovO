@@ -1,4 +1,4 @@
-package dev.saraki.meovo.module.playerprofile.infrastructure.database
+package dev.saraki.meovo.module.playerprofile.infrastructure.database.table
 
 import dev.saraki.meovo.module.playerprofile.domain.entity.AdvancementInfo
 import dev.saraki.meovo.module.playerprofile.domain.valueObject.AdvancementId

@@ -1,7 +1,7 @@
-package dev.saraki.meovo.module.playerprofile.domain.repository
+package dev.saraki.meovo.module.playerprofile.infrastructure.database.repository.jpa
 
 import dev.saraki.meovo.module.playerprofile.domain.entity.AdvancementInfo
-import dev.saraki.meovo.module.playerprofile.infrastructure.database.PlayerTable
+import dev.saraki.meovo.module.playerprofile.infrastructure.database.table.PlayerTable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository
  *   @description:
  */
 @Repository
-interface AdvancementsRepository : JpaRepository<PlayerTable, AdvancementInfo> {
+interface AdvancementsJpaRepository : JpaRepository<PlayerTable, AdvancementInfo> {
 }

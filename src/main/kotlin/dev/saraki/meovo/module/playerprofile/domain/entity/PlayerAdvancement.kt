@@ -13,7 +13,7 @@ import java.util.UUID
 */
 abstract class PlayerAdvancement (
     open val id: PlayerAdvancementId,
-    open val playerId: UUID,
+    open val playerUUid: UUID,
     open val advancementId: AdvancementId,
     open val date: LocalDateTime,
 ) {

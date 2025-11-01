@@ -1,22 +1,16 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import io.izzel.taboolib.gradle.*
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
 import io.izzel.taboolib.gradle.Basic
 import io.izzel.taboolib.gradle.BukkitFakeOp
 import io.izzel.taboolib.gradle.BukkitHook
 import io.izzel.taboolib.gradle.BukkitUI
 import io.izzel.taboolib.gradle.BukkitUtil
-import io.izzel.taboolib.gradle.Database
-import io.izzel.taboolib.gradle.AlkaidRedis
 import io.izzel.taboolib.gradle.CommandHelper
 import io.izzel.taboolib.gradle.I18n
 import io.izzel.taboolib.gradle.MinecraftChat
 import io.izzel.taboolib.gradle.MinecraftEffect
-import io.izzel.taboolib.gradle.Metrics
 import io.izzel.taboolib.gradle.Bukkit
-import io.izzel.taboolib.gradle.IOC
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -80,6 +74,10 @@ dependencies {
     // 数据库核心依赖
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Spring Data JPA
     implementation("com.h2database:h2") // H2 数据库（开发环境用，生产可替换为 MySQL 等）
+
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.apache.commons:commons-pool2") // 连接池支持
 }
 
 tasks.withType<JavaCompile> {

@@ -27,6 +27,6 @@ class PlayerDataController (
 
     @GetMapping("/{uuid}")
     fun getPlayerData(@PathVariable uuid: String): PlayerBaseInfo? {
-        return playerDataService.getPlayerInfo(UUID.fromString(uuid))
+        return playerDataService.getPlayerBaseInfo(UUID.fromString(uuid))
     }
 }

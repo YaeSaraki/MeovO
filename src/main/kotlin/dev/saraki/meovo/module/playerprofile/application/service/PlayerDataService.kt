@@ -3,16 +3,16 @@ package dev.saraki.meovo.module.playerprofile.application.service
 import dev.saraki.meovo.module.playerprofile.domain.entity.AdvancementInfo
 import dev.saraki.meovo.module.playerprofile.domain.valueObject.AdvancementId
 import dev.saraki.meovo.module.playerprofile.domain.valueObject.PlayerBaseInfo
-import dev.saraki.meovo.module.playerprofile.infrastructure.database.PlayerInfoTable
+import dev.saraki.meovo.module.playerprofile.infrastructure.database.table.PlayerInfoTable
 import dev.saraki.meovo.module.playerprofile.domain.repository.PlayerRepository
+import dev.saraki.meovo.module.playerprofile.infrastructure.database.table.AdvancementInfoTable
+import dev.saraki.meovo.module.playerprofile.infrastructure.database.table.PlayerTable
 import org.bukkit.Bukkit
-import org.bukkit.Bukkit.advancementIterator
-import org.bukkit.advancement.AdvancementProgress
 import org.bukkit.entity.Player
+import org.bukkit.advancement.AdvancementProgress
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.Date
 import java.util.UUID
 
 
@@ -20,57 +20,48 @@ import java.util.UUID
 class PlayerDataService(
     val playerRepository: PlayerRepository
 ) {
-    fun getPlayerInfo(uuid: UUID): PlayerBaseInfo? {
-        return playerRepository.findById(uuid).orElse(null)?.playerInfoTable?.playerBaseInfo
+    fun getPlayerBaseInfo(uuid: UUID): PlayerBaseInfo? {
+        return playerRepository.findPlayerInfo(uuid)?.playerBaseInfo
     }
 
     fun updatePlayerData(uuid: UUID) {
+        try {
         val player = Bukkit.getPlayer(uuid) ?: return
-        updatePlayerData(player)
+            updatePlayerData(player)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun updatePlayerData(player: Player): Boolean {
         val uuid = player.uniqueId
-        val p = playerRepository.findById(uuid).orElse(null)
+        val p = playerRepository.findPlayerInfo(uuid)
         if (p == null) {
-            val newPlayerTable = Player(
+            val newPlayerTable = PlayerTable(
                 playerUuid = uuid,
-                playerInfoTable = PlayerInfoTable(
-                    playerUuid = uuid,
-                    playerBaseInfo = PlayerBaseInfo(
-                        name = player.name,
-                        firstLoginTime = LocalTime.now()
-                    ),
-                    lastLoginTime = LocalDateTime.now(),
-                ),
                 lastLoginTime = LocalDateTime.now(),
-                advancements = mutableSetOf(),
-                )
-            playerRepository.save(newPlayerTable)
+            )
+            val newPlayerInfoTable = PlayerInfoTable(
+                playerUuid = uuid,
+                player = newPlayerTable,
+                playerBaseInfo = PlayerBaseInfo(
+                    name = player.displayName,
+                    firstLoginTime = LocalTime.now()
+                ),
+            )
+            playerRepository.addPlayer(newPlayerTable, newPlayerInfoTable)
         }
-        val oldHash = p?.advancements.hashCode()
-
-        val advancements: MutableSet<AdvancementInfo> = mutableSetOf()
-        for (advancement in advancementIterator()) {
-            val progress = player.getAdvancementProgress(advancement)
-            if (progress.isDone) {
-                advancements.add(adapter(progress))
-            }
-        }
-        if (oldHash != advancements.hashCode()) {
-            p.advancements = advancements
-            playerRepository.save(p)
-            return true
+        else {
+            p.player.lastLoginTime = LocalDateTime.now()
         }
         return false
     }
 
     fun adapter(progress: AdvancementProgress): AdvancementInfo  {
         val advancement = progress.advancement
-        return AdvancementInfo(
+        return AdvancementInfoTable(
             id = AdvancementId(advancement.display?.title.toString()),
             description = advancement.display?.description ?: "No description",
-            date = Date(Date().time),
         )
     }
 

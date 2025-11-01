@@ -1,4 +1,4 @@
-package dev.saraki.meovo.module.playerprofile.infrastructure.database
+package dev.saraki.meovo.module.playerprofile.infrastructure.database.table
 
 import dev.saraki.meovo.module.playerprofile.domain.entity.PlayerAdvancement
 import dev.saraki.meovo.module.playerprofile.domain.valueObject.AdvancementId
@@ -28,7 +28,7 @@ class PlayerAdvancementTable(
     override val id: PlayerAdvancementId,
 
     @Column(nullable = false)
-    override val playerId: UUID,
+    override val playerUUid: UUID,
 
     @Column(nullable = false)
     override val advancementId: AdvancementId,
@@ -36,4 +36,4 @@ class PlayerAdvancementTable(
     @Column(nullable = false)
     override val date: LocalDateTime,
 
-    ) : Serializable, PlayerAdvancement(id, playerId, advancementId, date)
+    ) : Serializable, PlayerAdvancement(id, playerUUid, advancementId, date)
