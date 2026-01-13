@@ -1,13 +1,31 @@
 package dev.saraki.meovo.module.nomobgrief
 
 
-import dev.saraki.meovo.module.nomobgrief.config.CreeperConfig
-import dev.saraki.meovo.module.nomobgrief.config.EndermanConfig
 import taboolib.common.platform.Plugin
-import taboolib.common.platform.function.console
+import dev.saraki.meovo.module.Module
+import dev.saraki.meovo.module.nomobgrief.listener.CreeperExplodeListener
+import dev.saraki.meovo.module.nomobgrief.listener.EndermanPickupListener
+import org.bukkit.event.entity.EntityExplodeEvent
+import org.bukkit.event.entity.EntityChangeBlockEvent
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.ProxyListener
+import taboolib.common.platform.function.registerBukkitListener
+import taboolib.common.platform.function.unregisterListener
 
-object NoMobGriefModule {
-    fun initialize(plugin: Plugin) {
-        console().sendMessage("[Meovo] NoMobGrief 模块已加载")
+object NoMobGriefModule : Module() {
+    private var creeperExplodeProxyListener: ProxyListener? = null
+    private var endermanPickupProxyListener: ProxyListener? = null
+    override fun onEnable(plugin: Plugin) {
+        super.onEnable(plugin)
+        creeperExplodeProxyListener = registerBukkitListener(EntityExplodeEvent::class.java, priority = EventPriority.NORMAL, ignoreCancelled = true,
+            { CreeperExplodeListener.onExplode(it) })
+        endermanPickupProxyListener = registerBukkitListener(EntityChangeBlockEvent::class.java, priority = EventPriority.NORMAL, ignoreCancelled = true,
+            { EndermanPickupListener.onEndermanPickup(it) })
+    }
+
+    override fun onDisable(plugin: Plugin) {
+        super.onDisable(plugin)
+        if (creeperExplodeProxyListener != null) unregisterListener(creeperExplodeProxyListener!!)
+        if (endermanPickupProxyListener != null) unregisterListener(endermanPickupProxyListener!!)
     }
 }

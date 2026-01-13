@@ -11,17 +11,14 @@ import io.izzel.taboolib.gradle.I18n
 import io.izzel.taboolib.gradle.MinecraftChat
 import io.izzel.taboolib.gradle.MinecraftEffect
 import io.izzel.taboolib.gradle.Bukkit
+import io.izzel.taboolib.gradle.IOC
+import io.izzel.taboolib.gradle.Metrics
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
 
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    java
     id("io.izzel.taboolib") version "2.0.27"
-    id("org.springframework.boot") version "3.5.7"
-    id("io.spring.dependency-management") version "1.1.7"
-}
-
-springBoot {
-    mainClass.set("dev.saraki.meovo.SpringBootApplication")
+    id("org.jetbrains.kotlin.jvm") version "2.2.0"
 }
 
 taboolib {
@@ -35,16 +32,18 @@ taboolib {
         install(I18n)
         install(MinecraftChat)
         install(MinecraftEffect)
+        install(Metrics)
         install(Bukkit)
+        install(IOC)
     }
     description {
         name = "MeovO"
         contributors {
-            name("Saraki")
+            name("YaeSaraki")
             desc("为MinecraftServer玩家提供附加功能")
         }
     }
-    version { taboolib = "6.2.3-1a8d7125" }
+    version { taboolib = "6.2.4-41dd260" }
 }
 
 repositories {
@@ -54,55 +53,28 @@ repositories {
 dependencies {
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
+    compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 
-    implementation(kotlin("stdlib"))
+    // http server
+    compileOnly("org.nanohttpd:nanohttpd:2.3.1")
 
-    // Spring Boot 依赖
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-
-    // Spring Boot Web
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-tomcat")
-
-    // 数据库核心依赖
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Spring Data JPA
-    implementation("com.h2database:h2") // H2 数据库（开发环境用，生产可替换为 MySQL 等）
-
-    // Redis
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("org.apache.commons:commons-pool2") // 连接池支持
+    // json
+    compileOnly("com.google.code.gson:gson:2.10.1")
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 tasks.withType<KotlinCompile> {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(JVM_1_8)
         freeCompilerArgs.add("-Xjvm-default=all")
     }
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
-}
-
 java {
-    withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

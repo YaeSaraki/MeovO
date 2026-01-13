@@ -1,9 +1,7 @@
 package dev.saraki.meovo.module.nomobgrief.config
 
-import taboolib.common.platform.function.getDataFolder
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.Configuration
-import java.io.File
+import taboolib.module.configuration.ConfigFile
 
 /**
  * 配置类：模拟"末影人可拾取方块标签"的自定义配置
@@ -13,12 +11,7 @@ object EndermanConfig {
 
     // 1. 框架只负责“文件存在性 + 热重载”，不注入字段
     @Config("config/NoMobGrief/enderman.yml", autoReload = true)
-    private val dummy = Unit
-
-    // 2. 真正的 Configuration 在第一次被访问时才加载
-    private val config by lazy {
-        Configuration.loadFromFile(File(getDataFolder(), "config/NoMobGrief/enderman.yml"))
-    }
+    lateinit var config : ConfigFile
 
     // 全局开关：是否启用拾取控制
     val enableControl: Boolean
