@@ -73,7 +73,7 @@ object EndermanLogic {
         return when (EndermanConfig.mode) {
             "WHITELIST" -> "白名单模式（仅允许 [${EndermanConfig.customHoldableBlocks.joinToString(", ")}]）"
             "BLACKLIST" -> "黑名单模式（禁止 [${EndermanConfig.customHoldableBlocks.joinToString(", ")}]）"
-            else -> "模式配置错误（当前：${EndermanConfig.mode ?: "未设置"}，请检查 config.yml）"
+            else -> "模式配置错误（当前：${EndermanConfig.mode ?: "未设置"}，请检查 enderman.yml）"
         }
     }
 }

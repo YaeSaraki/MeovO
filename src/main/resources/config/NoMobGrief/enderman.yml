@@ -1,6 +1,9 @@
 enable-control: true
+# 模式：WHITELIST（仅允许列表内方块）/ BLACKLIST（禁止列表内方块）
 mode: "WHITELIST"
 custom-holdable-blocks:
   - "CLAY"
+
+# 无效世界
 exception-worlds:
   - "survival_nether"

@@ -1,0 +1,6 @@
+target-server-host: "127.0.0.1"
+target-server-port: 8080
+
+allowedOrigins:
+  - "http://127.0.0.1:8080"
+  - "https://your-frontend.com"

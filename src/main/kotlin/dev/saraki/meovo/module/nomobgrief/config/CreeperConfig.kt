@@ -10,9 +10,9 @@ object CreeperConfig {
     val allowDestruction: Boolean
         get() = config.getBoolean("allow-destruction", false)
 
-    val allowedWorlds: List<String>
-        get() = config.getStringList("allowed-worlds")
-
     val allowPoweredDestruction: Boolean
         get() = config.getBoolean("allow-powered-destruction", false)
+
+    val allowedWorlds: List<String>
+        get() = config.getStringList("allowed-worlds")
 }
